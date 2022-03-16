@@ -12,6 +12,7 @@ export const GlobalStyles = createGlobalStyle<darkColor>`
     box-sizing: border-box;
     outline: none;
     font-family: 'Hubballi', cursive;
+
   }
 
   html, body {
