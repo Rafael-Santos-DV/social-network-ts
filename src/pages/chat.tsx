@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import {
+  BoxInputSubmit,
   BoxTaks,
   ButtonDarkCodeMode,
   ColumnChat,
@@ -8,13 +9,16 @@ import {
   HeaderTitle,
   Message,
   ProfilePeople,
-  RowPeople
+  RowPeople,
+  SpanMessage
 }
   from "../styles/styles";
 import { TiWeatherNight } from "react-icons/ti";
 
 import teste from "../assets/logo-rede-social.svg";
 import ContextDarlModelMode from "../context/context";
+import InputMessage from "../components/Input/input";
+import ButtonSubmit from "../components/button/button";
 
 
 const TalkChat: React.FC = () => {
@@ -87,106 +91,71 @@ const TalkChat: React.FC = () => {
         <ContainerChat>
 
           <Message typeMessage="emit">
-            <span>Message afafaf aa fafaf 1</span>
+            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 221</SpanMessage>
           </Message>
 
           <Message typeMessage="on">
-            <span>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</span>
+            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
           </Message>
+
           <Message typeMessage="emit">
-            <span>Message afafaf aa fafaf </span>
+            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
           </Message>
 
           <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
+            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
           </Message>
 
-          {/* // teste */}
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="on">
-            <span>Message afafa afafa afaf</span>
-          </Message>
           <Message typeMessage="emit">
-            <span>Message afafa afafa afaf</span>
-          </Message>
-          <Message typeMessage="emit">
-            <span>rafael</span>
+            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
           </Message>
 
+          <Message typeMessage="on">
+            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
+          </Message>
+
+          <Message typeMessage="emit">
+            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
+          </Message>
+
+          <Message typeMessage="on">
+            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
+          </Message>
+
+          <Message typeMessage="emit">
+            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
+          </Message>
+
+          <Message typeMessage="on">
+            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
+          </Message>
+
+          <Message typeMessage="emit">
+            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
+          </Message>
+
+          <Message typeMessage="on">
+            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
+          </Message><Message typeMessage="emit">
+            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
+          </Message>
+
+          <Message typeMessage="on">
+            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
+          </Message>
 
         </ContainerChat>
-
-
       </BoxTaks>
+
+      <BoxInputSubmit>
+        <InputMessage
+          name="message"
+          placeholder="Digite sua messagem"
+          type="text"
+        />
+        <ButtonSubmit text="Enviar" />
+      </BoxInputSubmit>
+
 
     </ColumnChat>
 

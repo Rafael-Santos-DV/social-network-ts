@@ -15,6 +15,10 @@ interface darkModelMode {
 }
 
 
+interface TypeDate {
+  date: string;
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -137,6 +141,8 @@ export const BoxTaks = styled.main`
   padding: 10px 40px;
   gap: 30px;
 
+  border-radius: 10px 10px 0 0;
+
   min-height: 70vh;
   max-height: 80vh;
 
@@ -146,6 +152,9 @@ export const BoxTaks = styled.main`
   @media only screen and (max-width: 678px) {
     padding: 10px 5px;
     gap: 10px;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
   }
 
 `;
@@ -201,11 +210,10 @@ export const Message = styled.div<TypeMessage>`
   > span {
     display: inline-block;
     border-radius: 10px;
-    padding: 5px 40px;
     color: ${TypesColors.colorWhite};
     font-weight: bold;
     background-color: ${props => props.typeMessage === "emit" ? TypesColors.colorRose : TypesColors.colorBlueB};
-
+    padding: 10px 20px 13px 20px;
 
   }
 
@@ -215,13 +223,29 @@ export const Message = styled.div<TypeMessage>`
     margin: 4px 0;
 
     > span {
-      padding: 5px 8px;
+      padding: 5px 8px 14px 8px;
       font-size: 11px;
     }
   }
 
 `;
 
+
+export const SpanMessage = styled.span<TypeDate>`
+  position: relative;
+
+  ::after {
+    display: inline-block;
+    content: "${props => props.date}";
+    position: absolute;
+    color: ${TypesColors.colorWhite};
+    font-size: 10px;
+    bottom: 0;
+    right: 10px;
+
+  }
+
+`;
 
 export const RowPeople = styled.div<ActiveView>`
   display: flex;
@@ -272,4 +296,12 @@ export const ProfilePeople = styled.img`
     height: 28px;
   }
 
+`;
+
+export const BoxInputSubmit = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: ${TypesColors.colorBlackR};
+  gap: 20px;
+  padding: 10px;
 `;
