@@ -1,7 +1,11 @@
 import { createGlobalStyle } from "styled-components";
+import TypeColors from "../styles/colors";
 
+type darkColor = {
+  bgDark: boolean;
+}
 
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<darkColor>`
   * {
     margin: 0;
     padding: 0;
@@ -12,7 +16,7 @@ export const GlobalStyles = createGlobalStyle`
 
   html, body {
     height: 100%;
-    background-color: #f5f5f5;
+    background-color: ${props => props.bgDark ? TypeColors.colorBlackBackg : TypeColors.colorMainBackg};
   }
 
 `;

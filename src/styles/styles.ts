@@ -10,6 +10,11 @@ interface ActiveView {
   active: boolean;
 }
 
+interface darkModelMode {
+  darkModelMode: boolean;
+}
+
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -108,7 +113,7 @@ export const HeaderTitle = styled.header`
   }
 `;
 
-export const ButtonDarkCodeMode = styled.button`
+export const ButtonDarkCodeMode = styled.button<darkModelMode>`
   padding: 5px 20px;
   font-size: 30px;
   appearance: none;
@@ -117,7 +122,7 @@ export const ButtonDarkCodeMode = styled.button`
   border-radius: 20px;
   cursor: pointer;
   transition: box-shadow 200ms;
-  background-color: ${TypesColors.colorWhite};
+  background-color: ${props => props.darkModelMode ? TypesColors.colorWhite : TypesColors.colorBlackR};
 
   &:hover {
     box-shadow: 0px 0px 5px ${TypesColors.colorMain};

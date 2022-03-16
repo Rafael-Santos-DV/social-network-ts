@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   BoxTaks,
   ButtonDarkCodeMode,
@@ -14,28 +14,41 @@ import {
 import { TiWeatherNight } from "react-icons/ti";
 
 import teste from "../assets/logo-rede-social.svg";
+import ContextDarlModelMode from "../context/context";
 
 
 const TalkChat: React.FC = () => {
 
+  // Context Contendo o state do darkModelMode
+  const contextDark = useContext(ContextDarlModelMode);
 
-  const handleClickSelect = (key: number): void => {
+  // manipulador dark Model/Mode
+  const handleClickDark = () => {
+    contextDark.setDark(values => !values);
+  }
 
+
+  const handleClickSelectMessages = (key: number): void => {
+
+    // styles perfil selecionado
     const elementActive = document.querySelectorAll(`.active`) as NodeListOf<HTMLElement>;
     elementActive.forEach(values => values.classList.remove("active"));
 
     const Element = document.querySelector(`[data-row="${key}"]`) as HTMLElement;
     Element.classList.add("active");
 
+
+    // buscando as messages
+
   };
 
   return (
-    <ColumnChat>
+    <ColumnChat >
 
       <HeaderTitle>
         <h1>Chat Me</h1>
 
-        <ButtonDarkCodeMode>
+        <ButtonDarkCodeMode onClick={handleClickDark} darkModelMode={contextDark.darkModeModel}>
           <TiWeatherNight className="icon-button" />
         </ButtonDarkCodeMode>
 
@@ -49,7 +62,7 @@ const TalkChat: React.FC = () => {
             key={1}
             data-row="1"
             active={true}
-            onClick={() => handleClickSelect(1)}
+            onClick={() => handleClickSelectMessages(1)}
           >
             <ProfilePeople src={teste} />
             <strong>Google 1</strong>
@@ -60,7 +73,7 @@ const TalkChat: React.FC = () => {
             key={2}
             data-row="2"
             active={true}
-            onClick={() => handleClickSelect(2)}
+            onClick={() => handleClickSelectMessages(2)}
           >
             <ProfilePeople src={teste} />
             <strong>Google 1</strong>
@@ -162,10 +175,10 @@ const TalkChat: React.FC = () => {
           <Message typeMessage="on">
             <span>Message afafa afafa afaf</span>
           </Message>
-          <Message typeMessage="on">
+          <Message typeMessage="emit">
             <span>Message afafa afafa afaf</span>
           </Message>
-          <Message typeMessage="on">
+          <Message typeMessage="emit">
             <span>rafael</span>
           </Message>
 
