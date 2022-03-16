@@ -5,18 +5,18 @@ import logoGoogle from "../assets/logo-google.png";
 import logoRede from "../assets/logo-rede-social.svg";
 
 
-function PageInitial() {
+const PageInitial: React.FC = () => {
   return (
     <Container>
       <BoxLogo>
-        <BackgroundLogo src={logoRede} alt="logo rede" />
+        <BackgroundLogo src={logoRede} alt="Imagem da logo Rede Social Chat Me" />
         <strong>Chat-me messsage</strong>
       </BoxLogo>
 
-      <RowFrame src={frameSvg} alt="logo rede social" />
+      <RowFrame src={frameSvg} alt="Várias pessoas conversando pelo celular" />
 
-      <BoxLoginGoogle>
-        <LogoGoogle src={logoGoogle} alt="logo do google" />
+      <BoxLoginGoogle >
+        <LogoGoogle src={logoGoogle} alt="logo da empresa do Google" />
         <span>Entre com sua conta do Google</span>
       </BoxLoginGoogle>
 
