@@ -6,6 +6,9 @@ interface TypeMessage {
   typeMessage: string;
 }
 
+interface ActiveView {
+  active: boolean;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -100,6 +103,8 @@ export const HeaderTitle = styled.header`
 
   > h1 {
     font-size: 40px;
+    color: ${TypesColors.colorMain};
+    text-shadow: 0px 0px 5px ${TypesColors.colorBlackR};
   }
 `;
 
@@ -112,7 +117,7 @@ export const ButtonDarkCodeMode = styled.button`
   border-radius: 20px;
   cursor: pointer;
   transition: box-shadow 200ms;
-  background-color: #fff;
+  background-color: ${TypesColors.colorWhite};
 
   &:hover {
     box-shadow: 0px 0px 5px ${TypesColors.colorMain};
@@ -125,6 +130,18 @@ export const BoxTaks = styled.main`
   grid-template-columns: 1fr  3fr;
   background-color: #2d3554;
   padding: 10px 40px;
+  gap: 30px;
+
+  min-height: 70vh;
+  max-height: 80vh;
+
+  overflow: hidden;
+
+
+  @media only screen and (max-width: 678px) {
+    padding: 10px 5px;
+    gap: 10px;
+  }
 
 `;
 
@@ -132,12 +149,43 @@ export const ColumnTalks = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow-y: auto;
+  padding: 4px 4px 0 4px;
+  ::-webkit-scrollbar{
+    display: none;
+  }
+
 `;
 
 export const ContainerChat = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding: 4px 4px;
+  overflow-y: auto;
+
+
+  ::-webkit-scrollbar {
+    width: 8px;
+
+  }
+  ::-webkit-scrollbar-track{
+    background-color: ${TypesColors.colorWhite};
+    border-radius: 20px;
+
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${TypesColors.colorRose};
+    width: 8px;
+    border-radius: 20px;
+  }
+
+  @media only screen and (max-width: 678px) {
+    align-items: center;
+  }
+
+
 `;
 
 export const Message = styled.div<TypeMessage>`
@@ -151,22 +199,60 @@ export const Message = styled.div<TypeMessage>`
     padding: 5px 40px;
     color: ${TypesColors.colorWhite};
     font-weight: bold;
-    background-color: ${props => props.typeMessage === "emit" ? "#ff45d0" : "#5e8bf2"};
+    background-color: ${props => props.typeMessage === "emit" ? TypesColors.colorRose : TypesColors.colorBlueB};
 
+
+  }
+
+  @media only screen and (max-width: 678px) {
+    justify-content: center;
+    padding-right: 0px;
+    margin: 4px 0;
+
+    > span {
+      padding: 5px 8px;
+      font-size: 11px;
+    }
   }
 
 `;
 
 
-export const RowPeople = styled.div`
+export const RowPeople = styled.div<ActiveView>`
   display: flex;
   align-items: center;
   gap: 20px;
+  padding: 3px;
+
+  &.active {
+    box-shadow: 1px 1px 0px ${TypesColors.colorRose},
+  -1px -1px 0px ${TypesColors.colorRose};
+  }
+
+
+
+  transition: box-shadow 200ms;
+  border-radius: 6px;
+  cursor: pointer;
 
   > strong {
-    font-size: 18px;
+    font-size: 15px;
     color:  ${TypesColors.colorWhite};
   }
+
+  @media only screen and (max-width: 678px) {
+    gap: 8px;
+
+    > strong {
+      font-size: 11px;
+    }
+  }
+
+  &:hover {
+    box-shadow: 1px 1px 0px ${TypesColors.colorRose},
+    -1px -1px 0px ${TypesColors.colorRose};
+  }
+
 `;
 
 
@@ -175,5 +261,10 @@ export const ProfilePeople = styled.img`
   height: 50px;
   border-radius: 50%;
   border: 1px solid ${TypesColors.colorWhite};
+
+  @media only screen and (max-width: 678px) {
+    width: 28px;
+    height: 28px;
+  }
 
 `;
