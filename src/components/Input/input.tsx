@@ -1,16 +1,15 @@
 import React from "react";
-import { Input } from "./style";
+import { TextArea } from "./style";
 
 interface TypesInput {
-  type: string;
   name: string;
   placeholder: string;
 
 }
 
-const InputMessage: React.FC<TypesInput> = ({ type, name, placeholder }) => {
+const InputMessage: React.FC<TypesInput> = ({ name, placeholder }) => {
 
-  return <Input type={type} name={name} placeholder={placeholder} />;
+  return <TextArea name={name} placeholder={placeholder} />;
 
 };
 

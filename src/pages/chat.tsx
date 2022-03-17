@@ -167,7 +167,6 @@ const TalkChat: React.FC = () => {
         <InputMessage
           name="message"
           placeholder="Digite sua messagem"
-          type="text"
         />
         <ButtonSubmit text="Enviar" />
       </BoxInputSubmit>
