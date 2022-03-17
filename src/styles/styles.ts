@@ -151,8 +151,6 @@ export const BoxTaks = styled.main`
   @media only screen and (max-width: 678px) {
     padding: 10px 5px;
     gap: 10px;
-    height: 100%;
-    max-height: 100vh;
     border-radius: 0;
   }
 
