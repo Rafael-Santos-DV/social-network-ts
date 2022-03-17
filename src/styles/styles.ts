@@ -30,7 +30,6 @@ export const Container = styled.div`
   gap: 20px;
   padding: 20px;
   height: 100%;
-  max-height: 100vh;
 
 `;
 
@@ -307,4 +306,6 @@ export const BoxInputSubmit = styled.div`
   background-color: ${TypesColors.colorBlackR};
   gap: 20px;
   padding: 10px;
+  position: sticky;
+  bottom: 0;
 `;
