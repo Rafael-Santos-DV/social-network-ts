@@ -144,7 +144,6 @@ export const BoxTaks = styled.main`
   border-radius: 10px 10px 0 0;
 
   height: 100%;
-  border: 1px solid red;
 
   overflow: hidden;
 
