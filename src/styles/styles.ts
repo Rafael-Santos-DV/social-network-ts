@@ -100,7 +100,6 @@ export const ColumnChat = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 100%;
   max-height: 100vh;
 `;
 
@@ -145,8 +144,7 @@ export const BoxTaks = styled.main`
   border-radius: 10px 10px 0 0;
 
   height: 100%;
-  min-height: 60vh;
-  max-height: 80vh;
+  border: 1px solid red;
 
   overflow: hidden;
 
