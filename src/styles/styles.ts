@@ -29,7 +29,8 @@ export const Container = styled.div`
   align-items: center;
   gap: 20px;
   padding: 20px;
-  height: 100vh;
+  height: 100%;
+  max-height: 100vh;
 
 `;
 
@@ -143,7 +144,8 @@ export const BoxTaks = styled.main`
 
   border-radius: 10px 10px 0 0;
 
-  min-height: 70vh;
+  height: 100%;
+  min-height: 60vh;
   max-height: 80vh;
 
   overflow: hidden;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   BoxInputSubmit,
   BoxTaks,
@@ -26,10 +26,26 @@ const TalkChat: React.FC = () => {
   // Context Contendo o state do darkModelMode
   const contextDark = useContext(ContextDarlModelMode);
 
+  useEffect(() => {
+
+    if (localStorage.getItem("darkModelMode")) {
+      contextDark.setDark(true);
+    }
+
+  }, [contextDark]);
+
+
   // manipulador dark Model/Mode
   const handleClickDark = () => {
     contextDark.setDark(values => !values);
-  }
+
+    if (!contextDark.darkModeModel) {
+      localStorage.setItem("darkModelMode", "true");
+    } else {
+      localStorage.removeItem("darkModelMode");
+    };
+
+  };
 
 
   const handleClickSelectMessages = (key: number): void => {
@@ -141,7 +157,7 @@ const TalkChat: React.FC = () => {
           </Message>
 
           <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
+            <SpanMessage date={"03/11/2022"}>tud Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
           </Message>
 
         </ContainerChat>
