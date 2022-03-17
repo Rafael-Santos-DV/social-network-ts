@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BoxInputSubmit,
   BoxTaks,
@@ -6,10 +6,12 @@ import {
   ColumnChat,
   ColumnTalks,
   ContainerChat,
+  ContainerInitTalk,
   HeaderTitle,
   Message,
   ProfilePeople,
   RowPeople,
+  SectionAddTalk,
   SpanMessage
 }
   from "../styles/styles";
@@ -22,6 +24,8 @@ import ButtonSubmit from "../components/button/button";
 
 
 const TalkChat: React.FC = () => {
+
+  const [displayButton, setDButton] = useState<boolean>(false);
 
   // Context Contendo o state do darkModelMode
   const contextDark = useContext(ContextDarlModelMode);
@@ -62,6 +66,11 @@ const TalkChat: React.FC = () => {
 
   };
 
+  // handle manipulador display button
+  const handleChangeAddTalk = (): void => {
+    setDButton(value => !value);
+  };
+
   return (
     <ColumnChat >
 
@@ -74,10 +83,149 @@ const TalkChat: React.FC = () => {
 
       </HeaderTitle>
 
+      <SectionAddTalk>
+        <ButtonSubmit text="Iniciar uma conversa" onClick={handleChangeAddTalk} />
+        <strong>Seu ID: 44444</strong>
+        <ContainerInitTalk display={displayButton}>
+          <input type="text" placeholder="ID do contato" required />
+          <ButtonSubmit text="Iniciar" />
+        </ContainerInitTalk>
+      </SectionAddTalk>
+
       <BoxTaks>
 
         <ColumnTalks>
 
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
+          <RowPeople
+            key={1}
+            data-row="1"
+            active={true}
+            onClick={() => handleClickSelectMessages(1)}
+          >
+            <ProfilePeople src={teste} />
+            <strong>Google 1</strong>
+
+          </RowPeople>
           <RowPeople
             key={1}
             data-row="1"
@@ -166,7 +314,7 @@ const TalkChat: React.FC = () => {
       <BoxInputSubmit>
         <InputMessage
           name="message"
-          placeholder="Digite sua messagem"
+          placeholder="Digite sua mensagem"
         />
         <ButtonSubmit text="Enviar" />
       </BoxInputSubmit>

@@ -19,6 +19,10 @@ interface TypeDate {
   date: string;
 }
 
+interface TypeDisplay {
+  display: boolean;
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,12 +38,13 @@ export const Container = styled.div`
 `;
 
 
-export const BoxLogo = styled.div`
+export const BoxLogo = styled.div<darkModelMode>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 15px;
+  color: ${props => props.darkModelMode ? TypesColors.colorWhite : TypesColors.colorBlackBackg};
 
   > strong {
     font-size: 24px;
@@ -63,7 +68,7 @@ export const RowFrame = styled.img`
   height: auto;
 `;
 
-export const BoxLoginGoogle = styled.div`
+export const BoxLoginGoogle = styled.div<darkModelMode>`
   display: flex;
   gap: 10px;
   width: 100%;
@@ -75,6 +80,7 @@ export const BoxLoginGoogle = styled.div`
   padding: 2px 10px;
   cursor: pointer;
   transition: background 200ms;
+  color: ${props => props.darkModelMode ? TypesColors.colorWhite : TypesColors.colorBlackBackg};
 
   &:hover {
     background-color: ${TypesColors.colorMain};
@@ -274,6 +280,10 @@ export const RowPeople = styled.div<ActiveView>`
     }
   }
 
+  @media only screen and (max-width: 398px) {
+    > strong { font-size: 9px; }
+  }
+
   &:hover {
     box-shadow: 1px 1px 0px ${TypesColors.colorRose},
     -1px -1px 0px ${TypesColors.colorRose};
@@ -303,4 +313,90 @@ export const BoxInputSubmit = styled.div`
   padding: 10px;
   position: sticky;
   bottom: 0;
+`;
+
+
+
+export const SectionAddTalk = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 10px;
+  > strong {
+    color: ${TypesColors.colorMain};
+    text-shadow: 1px 1px 0px ${TypesColors.colorBlackBackg};
+    padding-bottom: 4px;
+  }
+
+  > button {
+    width: 100%;
+    max-width: 160px;
+    font-size: 12px;
+    border: 1px solid ${TypesColors.colorBlackBackg};
+    box-shadow: none;
+    font-weight: bold;
+    color: ${TypesColors.colorBlackBackg};
+    padding: 5px;
+    line-height: 1.2;
+    :hover {
+      color: initial;
+    }
+    :active {
+      box-shadow: inset 0px 0px 30px rgba(36, 255, 0, .2),
+      inset 0px 0px 30px rgba(36, 255, 0, .3);
+      ;
+    }
+  }
+
+
+`;
+
+export const ContainerInitTalk = styled.div<TypeDisplay>`
+
+  display: ${props => props.display ? "flex" : "none"};
+  gap: 10px;
+  padding: 10px 0;
+  position: relative;
+  top: 50px;
+  transition: position;
+
+  ${props => props.display && "top: 0"};
+  animation: animation-display 300ms;
+
+  @keyframes animation-display {
+    0% {
+      top: 100px;
+      opacity: 0;
+      z-index: -1;
+    }
+    100% {
+      left: 0;
+      opacity: 1;
+    }
+  }
+
+  > input {
+    padding: 3px 5px;
+    border: 1px solid ${TypesColors.colorBlackBackg};
+    border-radius: 2px;
+
+  }
+
+  > button {
+
+    border: 1px solid ${TypesColors.colorBlackBackg};
+    box-shadow: none;
+    color: ${TypesColors.colorBlackBackg};
+
+    :hover {
+      color: initial;
+    }
+  }
+
+  @media only screen and (max-width: 398px) {
+    > input {
+      width: 65%;
+    }
+  }
 `;

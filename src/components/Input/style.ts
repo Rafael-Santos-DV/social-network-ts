@@ -8,6 +8,7 @@ export const TextArea = styled.textarea`
   min-height: 35px;
   max-width: 500px;
   resize: none;
+  word-break: break-all;
 
   ::-webkit-scrollbar {
     display: none;
