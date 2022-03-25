@@ -36,7 +36,7 @@
 
       (() => {
         const api = axios;
-        api.post("https://git.heroku.com/chatmemessages.git/EmitUser", { token: responsePayload }).then(response => {
+        api.post("https://chatmemessages.herokuapp.com//EmitUser", { token: responsePayload }).then(response => {
           const data = response.data;
 
           localStorage.setItem("userName", data.userName);
