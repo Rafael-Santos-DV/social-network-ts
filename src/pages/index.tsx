@@ -1,13 +1,18 @@
-import { BackgroundLogo, BoxLoginGoogle, BoxLogo, Container, LogoGoogle, RowFrame } from "../styles/styles";
+import { BackgroundLogo, BoxLoginGoogle, BoxLogo, Container, RowFrame } from "../styles/styles";
 
 import frameSvg from "../assets/image-peo.svg";
-import logoGoogle from "../assets/logo-google.png";
 import logoRede from "../assets/logo-rede-social.svg";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ContextDarlModelMode from "../context/context";
+import { useNavigate } from "react-router-dom";
 
 
 const PageInitial: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) navigate("/talks");
+  }, [navigate]);
 
   const ContextDark = useContext(ContextDarlModelMode);
 
@@ -20,12 +25,27 @@ const PageInitial: React.FC = () => {
 
       <RowFrame src={frameSvg} alt="Várias pessoas conversando pelo celular" />
 
-      <BoxLoginGoogle darkModelMode={ContextDark.darkModeModel}>
-        <LogoGoogle src={logoGoogle} alt="logo da empresa do Google" />
-        <span>Entre com sua conta do Google</span>
+      <BoxLoginGoogle>
+        <div id="g_id_onload"
+          data-client_id="id"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="handleCredentialResponse"
+          data-auto_prompt="false">
+        </div>
+
+        <div className="g_id_signin"
+          data-type="standard"
+          data-shape="square"
+          data-theme="filled_blue"
+          data-text="$ {button.text}"
+          data-size="large"
+          data-locale="pt-BR"
+          data-logo_alignment="left">
+        </div>
       </BoxLoginGoogle>
 
-    </Container>
+    </Container >
   );
 };
 

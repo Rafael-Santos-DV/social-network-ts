@@ -68,26 +68,10 @@ export const RowFrame = styled.img`
   height: auto;
 `;
 
-export const BoxLoginGoogle = styled.div<darkModelMode>`
+export const BoxLoginGoogle = styled.div`
   display: flex;
-  gap: 10px;
-  width: 100%;
-  max-width: 400px;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid ${TypesColors.colorMain};
-  border-radius: 20px;
-  padding: 2px 10px;
-  cursor: pointer;
-  transition: background 200ms;
-  color: ${props => props.darkModelMode ? TypesColors.colorWhite : TypesColors.colorBlackBackg};
+  flex-direction: column;
 
-  &:hover {
-    background-color: ${TypesColors.colorMain};
-    border-color: ${TypesColors.colorWhite};
-    color: ${TypesColors.colorWhite};
-
-  }
 `;
 
 export const LogoGoogle = styled.img`
