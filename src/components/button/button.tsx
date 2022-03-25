@@ -5,11 +5,12 @@ interface TypePropsButton {
   text: string;
   style?: CSSProperties | undefined;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 
-const ButtonSubmit: React.FC<TypePropsButton> = ({ text, style, onClick }) => {
-  return <Button onClick={onClick} style={style} >{text}</Button>
+const ButtonSubmit: React.FC<TypePropsButton> = ({ text, style, onClick, disabled }) => {
+  return <Button disabled={disabled} onClick={onClick} style={style} >{text}</Button>
 };
 
 

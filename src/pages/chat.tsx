@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   BoxInputSubmit,
   BoxTaks,
@@ -17,18 +19,87 @@ import {
   from "../styles/styles";
 import { TiWeatherNight } from "react-icons/ti";
 
-import teste from "../assets/logo-rede-social.svg";
 import ContextDarlModelMode from "../context/context";
 import InputMessage from "../components/Input/input";
 import ButtonSubmit from "../components/button/button";
 
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:3002", {
+  withCredentials: true,
+});
+
+
+interface TypesAllTalks {
+  roomName: string;
+  talks: [];
+  userOne: string;
+  userOneName: string;
+  userTwoName: string;
+  srcOne: string;
+  userTwo: string;
+  srcTwo: string;
+  __v?: number;
+  id: string;
+}
+
+interface TypeArray {
+  userId: string;
+  message: string;
+  dateAt: string;
+}
+
+interface TypeMessageRoom {
+  room: string;
+  message: string;
+}
 
 const TalkChat: React.FC = () => {
-
+  const [buttonAction, SetAction] = useState<boolean>(true);
+  const [getErr, setErr] = useState<boolean>(false);
+  const elementScroll = useRef<HTMLDivElement>(null);
   const [displayButton, setDButton] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   // Context Contendo o state do darkModelMode
   const contextDark = useContext(ContextDarlModelMode);
+
+  const [allTalks, setAllTalks] = useState<TypesAllTalks[]>();
+  const [getMessage, setMessage] = useState<TypeMessageRoom>({ message: "", room: "" });
+
+  const [refresh, setRefresh] = useState<boolean>(false);
+
+  const [messages_one, setMessageOne] = useState<TypeArray[]>();
+
+  const [useTwo, setUserTwo] = useState<string>("");
+
+  useEffect(() => {
+    // add o id ao sistema
+    socket.emit("init", {
+      userId: localStorage.myid,
+    });
+
+    // add todas as conversas
+    socket.on("allTalks", data => {
+      setAllTalks(data);
+    });
+
+    // checagem de novas msgs
+    socket.on("messages_one", data => {
+      setMessageOne(data.talks);
+      const element = elementScroll.current;
+      element?.scrollTo({ behavior: "smooth", top: element?.scrollHeight });
+    });
+
+    // refresh em caso de nova room criada
+    socket.on("refreshAll", (id) => {
+      if (localStorage.myid === id) {
+        setRefresh(v => !v);
+      }
+    });
+
+  }, [refresh]);
+
 
   useEffect(() => {
 
@@ -36,7 +107,12 @@ const TalkChat: React.FC = () => {
       contextDark.setDark(true);
     }
 
-  }, [contextDark]);
+    if (!localStorage.getItem("token")) navigate("/");
+    else {
+
+    }
+
+  }, [contextDark, navigate]);
 
 
   // manipulador dark Model/Mode
@@ -51,9 +127,68 @@ const TalkChat: React.FC = () => {
 
   };
 
+  const handleChangeTalk = (room: string): void => {
+    // envia a msg para a room e adiciona valores no state
+    socket.emit("getMessagesRoom", room);
+
+    setMessage(values => ({
+      ...values,
+      room: room,
+    }));
+  };
+
+  // envia novas mensagens
+  const hanldeClickSubmitMessage = (data: TypeMessageRoom): void => {
+    if (buttonAction) return;
+
+    console.log("ola");
+    socket.emit("onMessageEmit", {
+      message: data.message,
+      room: data.room,
+      userId: localStorage.myid,
+    });
+
+    setMessage(values => ({ ...values, message: "" }));
+
+  };
+
+  // add o usuário a ser inicado uma conversa
+  const handleAddUserTwo = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = event.target.value;
+    setUserTwo(value);
+  };
+
+  // cria uma nova room
+  const handleAddRoom = () => {
+
+    if (useTwo.trim().length <= 0) {
+      setErr(true);
+      const time = setTimeout(() => { setErr(false) }, 2000);
+
+      return () => clearTimeout(time);
+    };
+
+    socket.emit("onCreateRoom", {
+      userId: localStorage.myid,
+      userOne: localStorage.myid,
+      srcOne: localStorage.url,
+      userTwo: useTwo,
+      userName: localStorage.userName,
+    });
+
+    setUserTwo("");
+    setDButton(false);
+  };
+
+  const handleChangeMessage = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setMessage(values => ({
+      ...values,
+      message: event.target.value,
+    }));
+  };
 
   const handleClickSelectMessages = (key: number): void => {
-
+    SetAction(false);
     // styles perfil selecionado
     const elementActive = document.querySelectorAll(`.active`) as NodeListOf<HTMLElement>;
     elementActive.forEach(values => values.classList.remove("active"));
@@ -61,8 +196,6 @@ const TalkChat: React.FC = () => {
     const Element = document.querySelector(`[data-row="${key}"]`) as HTMLElement;
     Element.classList.add("active");
 
-
-    // buscando as messages
 
   };
 
@@ -85,238 +218,54 @@ const TalkChat: React.FC = () => {
 
       <SectionAddTalk>
         <ButtonSubmit text="Iniciar uma conversa" onClick={handleChangeAddTalk} />
-        <strong>Seu ID: 44444</strong>
-        <ContainerInitTalk display={displayButton}>
-          <input type="text" placeholder="ID do contato" required />
-          <ButtonSubmit text="Iniciar" />
+        <strong>Seu ID: {localStorage.myid}</strong>
+        <span style={{ color: "red" }}>{getErr && "ID vazio ou inválido!"}</span>
+        <ContainerInitTalk display={String(displayButton)}>
+          <input autoComplete="off" value={useTwo} type="text" placeholder="ID do contato" required name="userTwo" onChange={handleAddUserTwo} />
+          <ButtonSubmit text="Iniciar" onClick={handleAddRoom} />
         </ContainerInitTalk>
       </SectionAddTalk>
 
       <BoxTaks>
 
         <ColumnTalks>
+          {allTalks?.map((values, key) => (
+            <RowPeople
+              style={{ order: key }}
+              key={key}
+              data-row={key}
+              active={true}
+              onClick={() => {
+                handleClickSelectMessages(key);
+                handleChangeTalk(values.roomName);
+              }
+              }
+            >
+              <ProfilePeople src={localStorage.myid === values.userOne ? values.srcTwo : values.srcOne} />
+              <strong>{localStorage.myid === values.userOne ? values.userTwoName : values.userOneName}</strong>
 
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-          <RowPeople
-            key={1}
-            data-row="1"
-            active={true}
-            onClick={() => handleClickSelectMessages(1)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-
-          </RowPeople>
-
-          <RowPeople
-            key={2}
-            data-row="2"
-            active={true}
-            onClick={() => handleClickSelectMessages(2)}
-          >
-            <ProfilePeople src={teste} />
-            <strong>Google 1</strong>
-          </RowPeople>
-
-
-
+            </RowPeople>
+          ))}
 
         </ColumnTalks>
 
-        <ContainerChat>
-
-          <Message typeMessage="emit">
-            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 221</SpanMessage>
-          </Message>
-
-          <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
-          </Message>
-
-          <Message typeMessage="emit">
-            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
-          </Message>
-
-          <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
-          </Message>
-
-          <Message typeMessage="emit">
-            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
-          </Message>
-
-          <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
-          </Message>
-
-          <Message typeMessage="emit">
-            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
-          </Message>
-
-          <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
-          </Message>
-
-          <Message typeMessage="emit">
-            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
-          </Message>
-
-          <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
-          </Message>
-
-          <Message typeMessage="emit">
-            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
-          </Message>
-
-          <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
-          </Message><Message typeMessage="emit">
-            <SpanMessage date={"03/11/2022"}>Message afafaf aa fafaf 1</SpanMessage>
-          </Message>
-
-          <Message typeMessage="on">
-            <SpanMessage date={"03/11/2022"}>tud Message afafa afafa afaf Message afafa afafa afaf Message afafa afafa afaf</SpanMessage>
-          </Message>
-
+        <ContainerChat ref={elementScroll}>
+          {messages_one?.map((val, key) => (
+            <Message typeMessage={val.userId === localStorage.myid ? "emit" : "on"} key={key}>
+              <SpanMessage date={new Date(val.dateAt).toLocaleDateString("pt-br")}>{val.message}</SpanMessage>
+            </Message>
+          ))}
         </ContainerChat>
       </BoxTaks>
 
       <BoxInputSubmit>
         <InputMessage
+          value={getMessage.message}
           name="message"
           placeholder="Digite sua mensagem"
+          onChange={handleChangeMessage}
         />
-        <ButtonSubmit text="Enviar" />
+        <ButtonSubmit disabled={buttonAction} text="Enviar" onClick={() => hanldeClickSubmitMessage(getMessage)} />
       </BoxInputSubmit>
 
 

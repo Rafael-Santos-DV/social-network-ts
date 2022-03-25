@@ -18,6 +18,7 @@
 
   </style>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <title>Chat Me</title>
@@ -28,17 +29,32 @@
   <div id="root"></div>
 
   <script>
-    function handleCredentialResponse(response) {
-      const responsePayload = response.credential;
+    async function handleCredentialResponse(response) {
+      const responsePayload = await response.credential;
+
       localStorage.setItem("token", responsePayload);
-      window.location.href = "/talks";
+
+      (() => {
+        const api = axios;
+        api.post("http://localhost:3001/EmitUser", { token: responsePayload }).then(response => {
+          const data = response.data;
+
+          localStorage.setItem("userName", data.userName);
+          localStorage.setItem("url", data.src);
+          localStorage.setItem("myid", data._id);
+
+          window.location.href = "/talks";
+        });
+      })();
+
     }
+
     function onSignout() {
       google.accounts.id.disableAutoSelect();
     }
     window.onload = function () {
       google.accounts.id.initialize({
-        client_id: "id",
+        client_id: "613290123743-9heimvmt89p0c765nm5rcgdqt58moroc.apps.googleusercontent.com",
         callback: handleCredentialResponse
       });
     }

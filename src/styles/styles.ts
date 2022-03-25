@@ -20,7 +20,7 @@ interface TypeDate {
 }
 
 interface TypeDisplay {
-  display: boolean;
+  display: string;
 }
 
 export const Container = styled.div`
@@ -90,7 +90,7 @@ export const ColumnChat = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
+  height: 100vh;
 `;
 
 
@@ -130,11 +130,8 @@ export const BoxTaks = styled.main`
   background-color: #2d3554;
   padding: 10px 40px;
   gap: 30px;
-
   border-radius: 10px 10px 0 0;
-
   height: 100%;
-
   overflow: hidden;
 
 
@@ -150,8 +147,9 @@ export const ColumnTalks = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  overflow-y: auto;
-  padding: 4px 4px 0 4px;
+  overflow-y: scroll;
+  padding: 4px 4px 0 10px;
+
   ::-webkit-scrollbar{
     display: none;
   }
@@ -163,7 +161,7 @@ export const ContainerChat = styled.div`
   flex-direction: column;
   gap: 5px;
   padding: 4px 4px;
-  overflow-y: auto;
+  overflow-y: scroll;
 
 
   ::-webkit-scrollbar {
@@ -200,7 +198,7 @@ export const Message = styled.div<TypeMessage>`
     color: ${TypesColors.colorWhite};
     font-weight: bold;
     background-color: ${props => props.typeMessage === "emit" ? TypesColors.colorRose : TypesColors.colorBlueB};
-    padding: 10px 20px 13px 20px;
+    padding: 5px 6px;
 
   }
 
@@ -210,7 +208,6 @@ export const Message = styled.div<TypeMessage>`
     margin: 4px 0;
 
     > span {
-      padding: 5px 8px 14px 8px;
       font-size: 11px;
     }
   }
@@ -220,15 +217,19 @@ export const Message = styled.div<TypeMessage>`
 
 export const SpanMessage = styled.span<TypeDate>`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
   ::after {
-    display: inline-block;
+    display: block;
     content: "${props => props.date}";
-    position: absolute;
+    position: relative;
     color: ${TypesColors.colorWhite};
-    font-size: 10px;
+    font-size: 8px;
     bottom: 0;
-    right: 10px;
+    right: 0;
+    margin-top: 4px;
 
   }
 
@@ -338,7 +339,7 @@ export const SectionAddTalk = styled.section`
 
 export const ContainerInitTalk = styled.div<TypeDisplay>`
 
-  display: ${props => props.display ? "flex" : "none"};
+  display: ${props => props.display === "true" ? "flex" : "none"};
   gap: 10px;
   padding: 10px 0;
   position: relative;

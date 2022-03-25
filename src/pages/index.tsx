@@ -12,6 +12,7 @@ const PageInitial: React.FC = () => {
 
   useEffect(() => {
     if (localStorage.getItem("token")) navigate("/talks");
+
   }, [navigate]);
 
   const ContextDark = useContext(ContextDarlModelMode);
@@ -27,7 +28,7 @@ const PageInitial: React.FC = () => {
 
       <BoxLoginGoogle>
         <div id="g_id_onload"
-          data-client_id="id"
+          data-client_id="613290123743-9heimvmt89p0c765nm5rcgdqt58moroc.apps.googleusercontent.com"
           data-context="signin"
           data-ux_mode="popup"
           data-callback="handleCredentialResponse"
