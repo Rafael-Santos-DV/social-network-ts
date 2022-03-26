@@ -76,7 +76,7 @@ const TalkChat: React.FC = () => {
   const [useTwo, setUserTwo] = useState<string>("");
 
   useEffect(() => {
-    axios.post("https://chatmemessages.herokuapp.com/verify",).then(response => {
+    axios.post("https://chatmemessages.herokuapp.com/verify", { email: localStorage.email }).then(response => {
       const data = response.data;
       console.log(data);
       if (!data.authorization) navigate("/");
