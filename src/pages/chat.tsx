@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
 import {
   BoxInputSubmit,
   BoxTaks,
@@ -74,9 +76,18 @@ const TalkChat: React.FC = () => {
   const [useTwo, setUserTwo] = useState<string>("");
 
   useEffect(() => {
+    axios.post("https://chatmemessages.herokuapp.com/verify",).then(response => {
+      const data = response.data;
+      if (!data.authorization) navigate("/");
+      else sessionStorage.setItem("hashTemp", data.hash);
+
+    }).catch(() => navigate("/"));
+
+
     // add o id ao sistema
     socket.emit("init", {
       userId: localStorage.myid,
+      hashSocket: sessionStorage.hash,
     });
 
     // add todas as conversas
@@ -98,7 +109,7 @@ const TalkChat: React.FC = () => {
       }
     });
 
-  }, [refresh]);
+  }, [refresh, navigate]);
 
 
   useEffect(() => {
@@ -129,7 +140,7 @@ const TalkChat: React.FC = () => {
 
   const handleChangeTalk = (room: string): void => {
     // envia a msg para a room e adiciona valores no state
-    socket.emit("getMessagesRoom", room);
+    socket.emit("getMessagesRoom", room, sessionStorage.hash);
 
     setMessage(values => ({
       ...values,
@@ -141,11 +152,11 @@ const TalkChat: React.FC = () => {
   const hanldeClickSubmitMessage = (data: TypeMessageRoom): void => {
     if (buttonAction) return;
 
-    console.log("ola");
     socket.emit("onMessageEmit", {
       message: data.message,
       room: data.room,
       userId: localStorage.myid,
+      hashSocket: sessionStorage.hash,
     });
 
     setMessage(values => ({ ...values, message: "" }));
@@ -174,6 +185,7 @@ const TalkChat: React.FC = () => {
       srcOne: localStorage.url,
       userTwo: useTwo,
       userName: localStorage.userName,
+      hashSocket: sessionStorage.hash,
     });
 
     setUserTwo("");
