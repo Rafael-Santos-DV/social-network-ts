@@ -25,7 +25,7 @@ import ButtonSubmit from "../components/button/button";
 
 import { io } from "socket.io-client";
 
-const socket = io("https://chatmemessages.herokuapp.com/", {
+const socket = io("https://chatmemessages.herokuapp.com", {
   withCredentials: true,
 });
 
