@@ -11,7 +11,7 @@ const PageInitial: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("token")) navigate("/talks");
+    if (localStorage.getItem("token") && sessionStorage.hashTemp) navigate("/talks");
 
   }, [navigate]);
 
