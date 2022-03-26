@@ -85,7 +85,7 @@ const TalkChat: React.FC = () => {
         // add o id ao sistema
         socket.emit("init", {
           userId: localStorage.myid,
-          hashSocket: sessionStorage.hash,
+          hashSocket: sessionStorage.hashTemp,
         });
 
       };
@@ -142,7 +142,7 @@ const TalkChat: React.FC = () => {
 
   const handleChangeTalk = (room: string): void => {
     // envia a msg para a room e adiciona valores no state
-    socket.emit("getMessagesRoom", room, sessionStorage.hash);
+    socket.emit("getMessagesRoom", room, sessionStorage.hashTemp);
 
     setMessage(values => ({
       ...values,
@@ -158,7 +158,7 @@ const TalkChat: React.FC = () => {
       message: data.message,
       room: data.room,
       userId: localStorage.myid,
-      hashSocket: sessionStorage.hash,
+      hashSocket: sessionStorage.hashTemp,
     });
 
     setMessage(values => ({ ...values, message: "" }));
@@ -187,7 +187,7 @@ const TalkChat: React.FC = () => {
       srcOne: localStorage.url,
       userTwo: useTwo,
       userName: localStorage.userName,
-      hashSocket: sessionStorage.hash,
+      hashSocket: sessionStorage.hashTemp,
     });
 
     setUserTwo("");
