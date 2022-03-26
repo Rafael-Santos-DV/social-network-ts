@@ -78,10 +78,9 @@ const TalkChat: React.FC = () => {
   useEffect(() => {
     axios.post("https://chatmemessages.herokuapp.com/verify", { email: localStorage.email }).then(response => {
       const data = response.data;
-      console.log(data);
       if (!data.authorization) navigate("/");
       else {
-        sessionStorage.setItem("hashTemp", data.hash);
+        sessionStorage.setItem("hashTemp", data.hashSocket);
 
         // add o id ao sistema
         socket.emit("init", {
