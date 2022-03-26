@@ -80,7 +80,7 @@ const TalkChat: React.FC = () => {
       const data = response.data;
       if (!data.authorization) navigate("/");
       else {
-        sessionStorage.setItem("hashTemp", data.hashSocket);
+        sessionStorage.hashTemp = data.hashSocket;
 
         // add o id ao sistema
         socket.emit("init", {
