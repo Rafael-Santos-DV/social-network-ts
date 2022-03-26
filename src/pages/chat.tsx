@@ -78,17 +78,20 @@ const TalkChat: React.FC = () => {
   useEffect(() => {
     axios.post("https://chatmemessages.herokuapp.com/verify",).then(response => {
       const data = response.data;
+      console.log(data);
       if (!data.authorization) navigate("/");
-      else sessionStorage.setItem("hashTemp", data.hash);
+      else {
+        sessionStorage.setItem("hashTemp", data.hash);
+
+        // add o id ao sistema
+        socket.emit("init", {
+          userId: localStorage.myid,
+          hashSocket: sessionStorage.hash,
+        });
+
+      };
 
     }).catch(() => navigate("/"));
-
-
-    // add o id ao sistema
-    socket.emit("init", {
-      userId: localStorage.myid,
-      hashSocket: sessionStorage.hash,
-    });
 
     // add todas as conversas
     socket.on("allTalks", data => {
