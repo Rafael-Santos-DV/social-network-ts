@@ -94,7 +94,9 @@ const TalkChat: React.FC = () => {
     // add todas as conversas
     socket.on("allTalks", data => {
       setAllTalks(data);
-      document.querySelector(`[data-row="${Number(allTalks?.length) - 1}"]`);
+      const dataRow: HTMLElement | null = document.querySelector(`[data-row="${Number(allTalks?.length) - 1}"]`);
+      dataRow && dataRow.click();
+
     });
 
     // checagem de novas msgs
@@ -210,7 +212,6 @@ const TalkChat: React.FC = () => {
 
     const Element = document.querySelector(`[data-row="${key}"]`) as HTMLElement;
     Element.classList.add("active");
-
 
   };
 
