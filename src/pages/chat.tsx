@@ -60,7 +60,6 @@ const TalkChat: React.FC = () => {
   const [buttonAction, SetAction] = useState<boolean>(true);
   const [getErr, setErr] = useState<boolean>(false);
   const elementScroll = useRef<HTMLDivElement>(null);
-  const elementFirstContat = useRef<HTMLDivElement>(null);
   const [displayButton, setDButton] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -95,6 +94,7 @@ const TalkChat: React.FC = () => {
     // add todas as conversas
     socket.on("allTalks", data => {
       setAllTalks(data);
+      document.querySelector(`[data-row="${Number(allTalks?.length) - 1}"]`);
     });
 
     // checagem de novas msgs
@@ -111,15 +111,12 @@ const TalkChat: React.FC = () => {
       }
     });
 
-  }, [refresh, navigate]);
+  }, [refresh, navigate, allTalks]);
 
   useEffect(() => {
-    if (elementFirstContat.current) {
-      elementFirstContat.current?.click();
-      console.log(elementFirstContat.current);
-    };
 
-  }, [elementFirstContat]);
+
+  }, []);
 
   useEffect(() => {
 
@@ -249,7 +246,6 @@ const TalkChat: React.FC = () => {
         <ColumnTalks>
           {allTalks?.map((values, key) => (
             <RowPeople
-              ref={key === 0 ? elementFirstContat : null}
               style={{ order: key }}
               key={key}
               data-row={key}
