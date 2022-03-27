@@ -114,9 +114,9 @@ const TalkChat: React.FC = () => {
   }, [refresh, navigate]);
 
   useEffect(() => {
-    if (elementFirstContat) {
-      console.log(elementFirstContat);
+    if (elementFirstContat.current) {
       elementFirstContat.current?.click();
+      console.log(elementFirstContat.current);
     };
 
   }, [elementFirstContat]);
