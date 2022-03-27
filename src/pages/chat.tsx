@@ -60,6 +60,7 @@ const TalkChat: React.FC = () => {
   const [buttonAction, SetAction] = useState<boolean>(true);
   const [getErr, setErr] = useState<boolean>(false);
   const elementScroll = useRef<HTMLDivElement>(null);
+  const elementFirstContat = useRef<HTMLDivElement>(null);
   const [displayButton, setDButton] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -112,6 +113,13 @@ const TalkChat: React.FC = () => {
 
   }, [refresh, navigate]);
 
+  useEffect(() => {
+    if (elementFirstContat) {
+      console.log(elementFirstContat);
+      elementFirstContat.current?.click();
+    };
+
+  }, [elementFirstContat]);
 
   useEffect(() => {
 
@@ -241,6 +249,7 @@ const TalkChat: React.FC = () => {
         <ColumnTalks>
           {allTalks?.map((values, key) => (
             <RowPeople
+              ref={key === 0 ? elementFirstContat : null}
               style={{ order: key }}
               key={key}
               data-row={key}
