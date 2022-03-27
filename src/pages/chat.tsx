@@ -223,6 +223,15 @@ const TalkChat: React.FC = () => {
     setDButton(value => !value);
   };
 
+  const handleClickCopyId = () => {
+    const text = document.getElementById("myid") as HTMLTextAreaElement;
+    if (text) {
+      text.select();
+      document.execCommand("copy");
+      alert("copiado");
+    }
+  }
+
   return (
     <ColumnChat >
 
@@ -237,7 +246,8 @@ const TalkChat: React.FC = () => {
 
       <SectionAddTalk>
         <ButtonSubmit text="Iniciar uma conversa" onClick={handleChangeAddTalk} />
-        <strong>Seu ID: {localStorage.myid}</strong>
+        <strong onClick={handleClickCopyId}>Seu ID: {localStorage.myid}</strong>
+        <textarea id="myid" style={{ display: "none" }}>{localStorage.myid}</textarea>
         <span style={{ color: "red" }}>{getErr && "ID vazio ou inválido!"}</span>
         <ContainerInitTalk display={String(displayButton)}>
           <input autoComplete="off" value={useTwo} type="text" placeholder="ID do contato" required name="userTwo" onChange={handleAddUserTwo} />
