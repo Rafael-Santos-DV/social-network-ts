@@ -247,7 +247,7 @@ const TalkChat: React.FC = () => {
       <SectionAddTalk>
         <ButtonSubmit text="Iniciar uma conversa" onClick={handleChangeAddTalk} />
         <strong onClick={handleClickCopyId}>Seu ID: {localStorage.myid}</strong>
-        <textarea id="myid" style={{ display: "none" }}>{localStorage.myid}</textarea>
+        <textarea id="myid" style={{ opacity: 0, width: 0, height: 0, resize: "none" }}>{localStorage.myid}</textarea>
         <span style={{ color: "red" }}>{getErr && "ID vazio ou inválido!"}</span>
         <ContainerInitTalk display={String(displayButton)}>
           <input autoComplete="off" value={useTwo} type="text" placeholder="ID do contato" required name="userTwo" onChange={handleAddUserTwo} />
