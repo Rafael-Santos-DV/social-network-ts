@@ -312,6 +312,7 @@ export const SectionAddTalk = styled.section`
     color: ${TypesColors.colorMain};
     text-shadow: 1px 1px 0px ${TypesColors.colorBlackBackg};
     padding-bottom: 4px;
+    cursor: copy;
   }
 
   > button {

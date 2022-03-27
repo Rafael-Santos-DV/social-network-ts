@@ -228,7 +228,6 @@ const TalkChat: React.FC = () => {
     if (text) {
       text.select();
       document.execCommand("copy");
-      alert("copiado");
     }
   }
 
