@@ -61,7 +61,9 @@ const TalkChat: React.FC = () => {
   const [getErr, setErr] = useState<boolean>(false);
   const elementScroll = useRef<HTMLDivElement>(null);
   const [displayButton, setDButton] = useState<boolean>(false);
+  const [firstTalk, setFirstTalks] = useState<number>(-1);
   const navigate = useNavigate();
+
 
   // Context Contendo o state do darkModelMode
   const contextDark = useContext(ContextDarlModelMode);
@@ -94,7 +96,7 @@ const TalkChat: React.FC = () => {
     // add todas as conversas
     socket.on("allTalks", data => {
       setAllTalks(data);
-
+      setFirstTalks(data.length - 1);
     });
 
     // checagem de novas msgs
@@ -114,10 +116,12 @@ const TalkChat: React.FC = () => {
   }, [refresh, navigate]);
 
   useEffect(() => {
-    const dataRow: HTMLElement | null = document.querySelector(`[data-row="0"]`);
-    dataRow && dataRow.click();
+    if (firstTalk >= 0) {
+      const dataRow: HTMLElement | null = document.querySelector(`[data-row="${firstTalk}"]`);
+      dataRow && dataRow.click();
+    }
 
-  }, []);
+  }, [firstTalk]);
 
   useEffect(() => {
 
